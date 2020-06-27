@@ -30,8 +30,8 @@
 export default {
     name: 'MainPage',
     beforeCreate: function () {
-        if (!this.$store.getters.isLogged()) {
-            this.$$router.push('/')
+        if (!this.$store.getters['isLogged']) {
+            this.$router.push('/')
         }
     },
     methods: {

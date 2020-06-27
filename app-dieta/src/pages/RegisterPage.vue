@@ -48,6 +48,7 @@
         filled
         v-model="peso"
         label="peso"
+        type="number"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Por favor ingrese su peso']"
       />
@@ -55,16 +56,19 @@
         filled
         v-model="altura"
         label="altura"
+        type="number"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Por favor ingrese su altura']"
       />
-      <q-input
+      <q-select
         filled
+        clearable
         v-model="menu"
         label="menu"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Por favor ingrese su menu']"
+        :options="options"
+        :rules="['Seleccione una por favor']" 
       />
+      <br/>
       <div>
           <q-btn label="Registrar" type="submit" color="secondary" />
           <q-btn label="Cancelar" type="reset" color="secondary" flat class="q-ml-sm" />
@@ -86,7 +90,9 @@ export default {
       mail: '',
       peso: '',
       altura: '',
-      menu: ''
+      menu: '',
+      model: null,
+      options: ["Carnes y vegetales", "Vegetariano", "Vegano"]
     }
   },
   methods: {

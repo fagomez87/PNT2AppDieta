@@ -40,33 +40,32 @@ export default {
   },
   methods: {
     login: function () {
-      this.$store.commit('login', {
-        username: this.username,
-        token: 'kjoijwpopwepwpw'
-      })
-      this.$router.push('dietasapp')
+      // this.$store.commit('login', {
+      //   username: this.username,
+      //   token: 'kjoijwpopwepwpw'
+      // })
+      // this.$router.push('dietasapp')
 
-      // const formData = new FormData()
-      // formData.set('username', this.username)
-      // formData.set('password', this.password)
-      // this.$axios.post('http://127.0.0.1:9001/login', formData)
-      //   .then((response) => {
-      //     console.log("entre a la promesa")
-      //     this.$store.commit('login', {
-      //       username: this.username,
-      //       token: response.data.token
-      //     })
-      //     this.$router.push('/dietasapp')
-      //     this.$q.notify({
-      //       color: 'green-4',
-      //       textColor: 'white',
-      //       icon: 'cloud_done',
-      //       message: 'Bienvenido'
-      //     })
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      const formData = new FormData()
+      formData.set('username', this.username)
+      formData.set('password', this.password)
+      this.$axios.post('http://127.0.0.1:9001/login', formData)
+        .then((response) => {
+            this.$store.commit('login', {
+            username: this.username,
+            token: response.data.token
+          })
+          this.$router.push('/dietasapp')
+          this.$q.notify({
+            color: 'green-4',
+            textColor: 'white',
+            icon: 'cloud_done',
+            message: 'Bienvenido'
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     onReset () {
       this.username = null
