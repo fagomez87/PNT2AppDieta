@@ -161,55 +161,50 @@ def login():
     if d.password != password:
         return Response("Usuario/Contraseña incorrecto", status=400)
     
-    return Response('{"token":"esteesuntoken1234"}', status=201, mimetype='application/json')
+    return Response('{"token":"esteesuntoken1234"}', status=200, mimetype='application/json')
+
+@app.route('/register', methods=['POST'])
+def create_usuario():
+    # if not 'nombre' in request.form:
+    #     return Response("Nombre no especificado", status=400)
+    # if not 'apellido' in request.form:
+    #     return Response("Apellido no especificado", status=400)
+    # if not 'usuario' in request.form:
+    #     return Response("Usuario no especificado", status=400)
+    # if not 'contrasena' in request.form:
+    #     return Response("Contraseña no especificada", status=400)
+    # if not 'mail' in request.form:
+    #     return Response("Mail no especificado", status=400)
+    # if not 'peso' in request.form:
+    #     return Response("Peso no especificado", status=400)
+    # if not 'altura' in request.form:
+    #     return Response("Altura no especificada", status=400)
+
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    user = request.form['usuario']
+    contrasena = request.form['contrasena']
+    mail = request.form['mail']
+    peso = request.form['peso']
+    altura = request.form['altura']
+    menu = request.form['menu']
 
 
-
-
-# @app.route('/departamento', methods=['POST'])
-# def create_departamento():
-#     if not 'nombre' in request.form:
-#         return Response("Nombre no especificado", status=400)
-
-#     nombre = request.form['nombre']
-#     if nombre == '':
-#         return Response("{'mensaje_error':'Nombre vacio'}", status=400, mimetype='application/json')
-
-#     depto = Departamento(nombre=nombre)
-
-#     # depto = Departamento()
-#     # depto.nombre = nombre
-
-#     s = session()
-#     s.add(depto)
-#     s.commit()
-
-#     return Response(str(depto.id), status=201, mimetype='application/json')
-
-# @app.route('/departamento/<int:id>')
-# def get_departamento(id):
-#     s = session()
-#     d = s.query(Departamento).filter(Departamento.id==id).one()
+    s = session()
+    us = s.query(Usuarios).filter(Usuarios.usuario==user).first()
     
-#     return Response(d.to_json(), status=200, mimetype='application/json')
-
-# @app.route('/departamento')
-# def list_departamento():
-#     s = session()
-#     dptos = s.query(Departamento)
-#     return Response(json.dumps([d.to_json() for d in dptos]), status=200, mimetype='application/json')
-
-# @app.route('/departamento', methods=['PUT'])
-# def put_departamento():
-#     id = request.form['id']
-#     nombre = request.form['nombre']
+    #HAY QUE VALIDAR COMO VIENE US PARA QUE NO TIRE EL ERROR 400
+    if us != 'undefined':
+        return Response("El usuario ya existe", status=400)
+        
+    tMenu = s.query(TipoMenu).filter(TipoMenu.tipoMenu == menu).first()
     
-#     s = session()
-#     d = s.query(Departamento).filter(Departamento.id==id).one()
-#     d.nombre = nombre
-#     s.commit()
-    
-#     return Response(status=204)
+    usuario = Usuarios(nombre=nombre,apellido=apellido,usuario=user,password=contrasena,mail=mail,peso=peso,altura=altura, menu=tMenu.id)
+
+    s.add(usuario)
+    s.commit()
+
+    return Response(str(usuario.id), status=201, mimetype='application/json')
 
 
 if __name__ == '__main__':

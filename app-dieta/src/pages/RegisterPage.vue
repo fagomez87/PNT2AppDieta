@@ -103,6 +103,28 @@ export default {
     //     username: this.username,
     //     token: 'abcdefghijk'
     //   })
+
+      const formData = new FormData()
+      formData.set('nombre', this.nombre)
+      formData.set('apellido', this.apellido)
+      formData.set('usuario', this.usuario)
+      formData.set('contrasena', this.contrasena)
+      formData.set('mail', this.mail)
+      formData.set('peso', this.peso)
+      formData.set('altura', this.altura)
+      formData.set('menu', this.menu)
+
+      this.$axios.post('http://127.0.0.1:9001/register', formData)
+        .then((response) => {
+            this.$store.commit('register', {
+            username: this.username,
+            token: response.data.token
+          })
+          this.$router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       this.$router.push('/')
       // Esta OK
     },
