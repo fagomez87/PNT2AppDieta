@@ -65,15 +65,6 @@ export default {
       btnColor:'grey'
     }
   },
-  // beforeMount: function () {
-  //   this.$axios.get('http://127.0.0.1:9001/opciones')
-  //     .then((response) => {
-  //       this.$store.commit('opciones', {
-  //         response: response.data
-  //       })
-  //     }
-  //   )
-  // },
 
   methods: {
     volver: function (){

@@ -43,4 +43,25 @@ export default {
         }
     }
 }
+  /*  AL MOMENTO DE HACER CLICK EN OPCIONES DE COMIDAS HACER LA QUERY, USAR UNA MUTATION PARA ALMACENAR (CREO) 
+  LA INFO Y LUEGO PUSHEAR AL /OPCIONES Y DE AHI LEVANTAR LA DATA
+  const router = new VueRouter({
+    routes: [
+      {
+        path: '/foo',
+        component: Foo,
+        beforeEnter: (to, from, next) => {
+          axios.get('api/...')
+            .then(response => {
+              store.commit('mutation', response)
+              next()
+            })
+            .catch(e => {
+              alert('Something went wrong')
+              next(false)
+            })
+        }
+      }
+    ]
+  }) */
 </script>

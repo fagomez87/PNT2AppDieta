@@ -58,7 +58,12 @@ export default {
           })
         })
         .catch((error) => {
-          // console.log(error)
+            this.$q.dialog({
+            title: 'Datos erroneos',
+            message: 'Usuario o contraseña incorrectos',
+            cancel: true,
+            persistent: true,
+          })
         })
     },
     onReset () {

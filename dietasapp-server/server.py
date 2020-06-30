@@ -157,28 +157,33 @@ def login():
     password = request.form['password']
 
     s = session()
-    d = s.query(Usuarios).filter(Usuarios.usuario==username).first()
-    if d.password != password:
-        return Response("Usuario/Contraseña incorrecto", status=400)
+   
+    try:
+        d = s.query(Usuarios).filter(Usuarios.usuario==username).first()
+        if d.password != password:
+            return Response("Usuario/Contraseña incorrecto", status=400)
+        
+    except(Exception):
+        return Response("Cliente no registrado", status=404)   
     
     return Response('{"token":"esteesuntoken1234"}', status=200, mimetype='application/json')
 
 @app.route('/register', methods=['POST'])
 def create_usuario():
-    # if not 'nombre' in request.form:
-    #     return Response("Nombre no especificado", status=400)
-    # if not 'apellido' in request.form:
-    #     return Response("Apellido no especificado", status=400)
-    # if not 'usuario' in request.form:
-    #     return Response("Usuario no especificado", status=400)
-    # if not 'contrasena' in request.form:
-    #     return Response("Contraseña no especificada", status=400)
-    # if not 'mail' in request.form:
-    #     return Response("Mail no especificado", status=400)
-    # if not 'peso' in request.form:
-    #     return Response("Peso no especificado", status=400)
-    # if not 'altura' in request.form:
-    #     return Response("Altura no especificada", status=400)
+    if not 'nombre' in request.form:
+        return Response("Nombre no especificado", status=400)
+    if not 'apellido' in request.form:
+        return Response("Apellido no especificado", status=400)
+    if not 'usuario' in request.form:
+        return Response("Usuario no especificado", status=400)
+    if not 'contrasena' in request.form:
+        return Response("Contraseña no especificada", status=400)
+    if not 'mail' in request.form:
+        return Response("Mail no especificado", status=400)
+    if not 'peso' in request.form:
+        return Response("Peso no especificado", status=400)
+    if not 'altura' in request.form:
+        return Response("Altura no especificada", status=400)
 
     nombre = request.form['nombre']
     apellido = request.form['apellido']
@@ -194,8 +199,8 @@ def create_usuario():
     us = s.query(Usuarios).filter(Usuarios.usuario==user).first()
     
     #HAY QUE VALIDAR COMO VIENE US PARA QUE NO TIRE EL ERROR 400
-    if us != 'undefined':
-        return Response("El usuario ya existe", status=400)
+    if us != 'None':
+        return Response(text="El usuario ya existe", status=400)
         
     tMenu = s.query(TipoMenu).filter(TipoMenu.tipoMenu == menu).first()
     
@@ -205,6 +210,16 @@ def create_usuario():
     s.commit()
 
     return Response(str(usuario.id), status=201, mimetype='application/json')
+
+
+@app.route('/opciones', methods=['GET'])
+def buscar_opciones():
+    s = session()
+    comidas = s.query(Comidas)
+
+    return Response(json.dumps([c.to_json() for c in comidas]), status=200, mimetype='application/json')
+
+#json.dumps([d.to_json() for d in dptos])
 
 
 if __name__ == '__main__':
