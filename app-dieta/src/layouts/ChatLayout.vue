@@ -10,7 +10,6 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
         <q-toolbar-title>
           DietasApp
         </q-toolbar-title>
@@ -48,19 +47,12 @@
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 
-export default {
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-  computed: {
-    username: function () {
-      return this.$store.state.username
-    }
-  },
-
-  data () {
+  export default {
+    name:'chatLayout',
+     components: {
+      EssentialLink
+    },
+    data () {
     return {
       leftDrawerOpen: false,
       essentialLinks: [
@@ -96,5 +88,5 @@ export default {
       ]
     }
   }
-}
+  }
 </script>

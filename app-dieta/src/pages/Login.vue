@@ -40,12 +40,6 @@ export default {
   },
   methods: {
     login: function () {
-      // this.$store.commit('login', {
-      //   username: this.username,
-      //   token: 'kjoijwpopwepwpw'
-      // })
-      // this.$router.push('dietasapp')
-
       const formData = new FormData()
       formData.set('username', this.username)
       formData.set('password', this.password)
@@ -64,7 +58,7 @@ export default {
           })
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
     },
     onReset () {

@@ -49,8 +49,7 @@
 import EssentialLink from 'components/EssentialLink.vue'
 
 export default {
-  name: 'MainLayout',
-
+  name: 'OpcionesLayout',
   components: {
     EssentialLink
   },
@@ -67,7 +66,7 @@ export default {
         {
           title: 'Mis Datos',
           icon: 'account_circle',
-          link: '/#/datos'
+          link: ''
         },
         {
           title: 'Menu',
@@ -91,7 +90,7 @@ export default {
           title: 'Contacto',
           caption: 'Soporte tecnico',
           icon: 'chat',
-          link: '/#/chat'
+          link: 'https://chat.dietas.dev'
         },
       ]
     }

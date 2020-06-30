@@ -36,14 +36,6 @@
                 </q-card-section>
             </q-card>
         </div>
-        <!-- <div >
-            
-            <q-btn label="Carnes y vegetales" type="button" @click="goToMain" color="negative"/>
-            <hr>
-            <q-btn label="Vegetariano" type="button" @click="goToMain" color="positive"/>
-            <br>
-            <q-btn label="Vegano" type="button" @click="goToMain" color="warning"/>
-        </div> -->
     </q-page>
 </template>
 

@@ -123,9 +123,14 @@ export default {
           this.$router.push('/')
         })
         .catch((error) => {
-          console.log(error)
+          this.$q.dialog({
+            title: 'Error al crear el usuario',
+            message: 'Ya tenemos registrado un usuario con ese alias',
+            cancel: true,
+            persistent: true,
+          })
         })
-      this.$router.push('/')
+
       // Esta OK
     },
     reset: function () {

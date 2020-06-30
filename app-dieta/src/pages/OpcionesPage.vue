@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       grid
-      title="Que comiste"
+      title="Opciones disponibles"
       :data="data"
       :columns="columns"
       row-key="name"
@@ -20,10 +20,19 @@
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
           <q-card>
+            <!-- 
+              Ver de agregar la posibilidad de que cada card sea clickeable, y que on click "borre"
+              esa card del listado.
+              En tiempo real va a tener que insertar ese menu en el usuario, actualizar la de menus
+              y hacer un select para borrarla del listado presentado
+            -->
             <q-card-section class="text-center">
-              <strong>{{ props.row.dia }}</strong>
+              <strong>{{ props.row.opcion }}</strong>
               <br>
               {{ props.row.dieta }}
+              <q-card-actions align="right">
+                <q-btn flat round :color="btnColor" @click="selected" icon="favorite"></q-btn>
+              </q-card-actions>
             </q-card-section>
             <q-separator />
             <q-card-section class="flex flex-center" style="10px">
@@ -40,11 +49,11 @@
 </template>
 <script>
 export default {
-  name: 'MainPage',
-  data () {
-    return {
-      filter: '',
-      pagination: {
+  name: 'OpcionePage',
+    data () {
+      return {
+        filter: '',
+        pagination: {
         page: 1,
         rowsPerPage: 3
       },
@@ -52,12 +61,27 @@ export default {
         { name: 'dieta', label: 'Tipo de dieta', field: 'dieta' },
         { name: 'tipo', label: 'Opcion', field: 'tipo' }
       ],
-      data
+      data,
+      btnColor:'grey'
     }
   },
+  // beforeMount: function () {
+  //   this.$axios.get('http://127.0.0.1:9001/opciones')
+  //     .then((response) => {
+  //       this.$store.commit('opciones', {
+  //         response: response.data
+  //       })
+  //     }
+  //   )
+  // },
+
   methods: {
-    volver: function(){
+    volver: function (){
       this.$router.push('/dietasapp')
+    },
+    selected: function () {
+      console.log(this)
+      this.btnColor = 'red'
     }
   }
 }
@@ -67,12 +91,12 @@ const tipos = [
   'Desayuno: Té + 3 tostadas con mermelada \nAlmuerzo: Lata de atún con ensalada Cena: 1 Milanesa de peceto con ensalada',
   'Desayuno: Cafe + 3 tostadas con mermelada \nAlmuerzo: Bife + 1 pan chico con ensalada Cena: 2 Milanesas de soja con ensalada'
 ]
-const dias = ["Lunes", "Martes", "Miercoles"]
+const opcion = "Menu "
 const data = []
 let j= 0;
 tipos.forEach(name => {
   for (let i = 0; i < 1; i++) {
-    data.push({ dieta: 'Mi comida fue', tipo: name, dia:dias[j] })
+    data.push({ dieta: '', tipo: name, opcion:opcion + (j+1)})
   }
   j++;
 })

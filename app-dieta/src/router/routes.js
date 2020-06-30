@@ -35,7 +35,20 @@ const routes = [
       { path: '', component: () => import('pages/RegisterPage.vue') }
     ]
   },
-
+  {
+    path: '/chat',
+    component: () => import('layouts/ChatLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ChatPage.vue') }
+    ]
+  },
+  {
+    path: '/opciones',
+    component: () => import('layouts/OpcionesLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/OpcionesPage.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
