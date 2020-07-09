@@ -20,12 +20,7 @@
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
           <q-card>
-            <!-- 
-              Ver de agregar la posibilidad de que cada card sea clickeable, y que on click "borre"
-              esa card del listado.
-              En tiempo real va a tener que insertar ese menu en el usuario, actualizar la de menus
-              y hacer un select para borrarla del listado presentado
-            -->
+
             <q-card-section class="text-center">
               <strong>{{ props.row.opcion }}</strong>
               <br>
@@ -71,7 +66,6 @@ export default {
       this.$router.push('/dietasapp')
     },
     selected: function () {
-      console.log(this)
       this.btnColor = 'red'
     }
   }

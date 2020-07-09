@@ -1,6 +1,6 @@
 # ORM: Object Relational Map
 from flask import Flask, request, Response
-from flask import json
+from flask import json, jsonify, make_response
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, Boolean
@@ -8,6 +8,8 @@ from sqlalchemy.orm import relationship, backref
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+from random import randint
 
 
 Base = declarative_base()
@@ -55,13 +57,20 @@ class Comidas(Base, ToJson):
         TipoMenu,
         backref=backref('comidas',uselist=True,cascade='delete,all')
     )
-    idusuario= Column(Integer, ForeignKey('usuarios.id'), default='')
-    usuarios= relationship(
+    
+class ComidasUsuarios(Base, ToJson):
+    __tablename__ = 'comidasusuarios'
+    id = Column(Integer, primary_key=True)
+    idUsuario= Column(Integer, ForeignKey('usuarios.id'))
+    usuario= relationship(
         Usuarios,
         backref=backref('usuarios',uselist=True,cascade='delete,all')
     )
-    seleccionada= Column(Boolean, default=False)
-    
+    idComida= Column(Integer, ForeignKey('comidas.id'))
+    comida= relationship(
+        Comidas,
+        backref=backref('comidas',uselist=True,cascade='delete,all')
+    )    
 
 
 engine = create_engine('sqlite:///base_servido.sqlite')
@@ -120,6 +129,21 @@ def populateComidas():
     
     return 'Ok'
 
+@app.route('/populateComidasUsuarios')
+def populateComidasUsuarios():
+    opcion1 = ComidasUsuarios(idUsuario='1',idComida='1')
+    s = session()
+    s.add(opcion1)
+    s.commit()
+    
+    opcion2 = ComidasUsuarios(idUsuario='1', idComida='2')
+    s = session()
+    s.add(opcion2)
+    s.commit()
+    
+    return 'Ok'
+
+
 @app.route('/populateCategorias')
 def populateCategorias():
     menu1 = Categoria(descripcion='Desayuno')
@@ -160,13 +184,17 @@ def login():
    
     try:
         d = s.query(Usuarios).filter(Usuarios.usuario==username).first()
-        if d.password != password:
+        if d.password != password or d.usuario != username:
             return Response("Usuario/Contraseña incorrecto", status=400)
-        
     except(Exception):
         return Response("Cliente no registrado", status=404)   
     
-    return Response('{"token":"esteesuntoken1234"}', status=200, mimetype='application/json')
+    rand = randint(100000,999999)
+    token = 'bkcsp'+ str(rand)
+    res_body = {"id":d.id,"token":token}
+    res = make_response(res_body, 200)
+    return res
+ #Response(jsonify(res), status=200, mimetype='application/json')
 
 @app.route('/register', methods=['POST'])
 def create_usuario():
@@ -196,20 +224,17 @@ def create_usuario():
 
 
     s = session()
-    us = s.query(Usuarios).filter(Usuarios.usuario==user).first()
-    
-    #HAY QUE VALIDAR COMO VIENE US PARA QUE NO TIRE EL ERROR 400
-    if us != 'None':
-        return Response(text="El usuario ya existe", status=400)
-        
-    tMenu = s.query(TipoMenu).filter(TipoMenu.tipoMenu == menu).first()
-    
-    usuario = Usuarios(nombre=nombre,apellido=apellido,usuario=user,password=contrasena,mail=mail,peso=peso,altura=altura, menu=tMenu.id)
-
-    s.add(usuario)
-    s.commit()
-
-    return Response(str(usuario.id), status=201, mimetype='application/json')
+  
+    try:
+        us = s.query(Usuarios).filter(Usuarios.usuario==user).first()
+        if us.usuario == user:
+            return Response(text="El usuario ya existe", status=400)
+    except(Exception):
+        tMenu = s.query(TipoMenu).filter(TipoMenu.tipoMenu == menu).first()
+        usuario = Usuarios(nombre=nombre,apellido=apellido,usuario=user,password=contrasena,mail=mail,peso=peso,altura=altura, menu=tMenu.id)
+        s.add(usuario)
+        s.commit()
+        return Response(str(usuario.id), status=201, mimetype='application/json')
 
 
 @app.route('/opciones', methods=['GET'])

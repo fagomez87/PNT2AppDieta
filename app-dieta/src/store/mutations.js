@@ -8,7 +8,7 @@ export default {
       state.token = null
     },
     opciones: function (state, data) {
-      console.log("En la mutation " + data)
+      console.log("En la mutation " + sudata)
      
     }
   }
