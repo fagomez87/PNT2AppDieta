@@ -15,10 +15,10 @@ const routes = [
     ]
   },
   {
-    path: '/datos',
-    component: () => import('layouts/DatosLayout.vue'),
+    path: '/menu',
+    component: () => import('layouts/MenuLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/DatosPage.vue') }
+      { path: '', component: () => import('pages/MenuPage.vue') }
     ]
   },
   {
@@ -47,6 +47,13 @@ const routes = [
     component: () => import('layouts/OpcionesLayout.vue'),
     children: [
       { path: '', component: () => import('pages/OpcionesPage.vue') }
+    ]
+  },
+  {
+    path: '/datos',
+    component: () => import('layouts/DatosLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/DatosPage.vue') }
     ]
   },
 

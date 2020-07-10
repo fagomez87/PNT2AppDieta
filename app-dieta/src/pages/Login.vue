@@ -45,11 +45,10 @@ export default {
       formData.set('password', this.password)
       this.$axios.post('http://127.0.0.1:9001/login', formData)
         .then((response) => {
-          console.log(response.data)
             this.$store.commit('login', {
-            id: this.id,
             username: this.username,
-            token: response.data.token
+            token: response.data.token,
+            id: response.data.id
           })
           this.$router.push('/dietasapp')
           this.$q.notify({

@@ -9,6 +9,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from random import randint
 
 
@@ -30,6 +32,11 @@ class Usuarios(Base, ToJson):
     peso = Column(Integer)
     altura = Column(Integer)
     menu = Column(String)
+    
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
     
 class TipoMenu(Base, ToJson):
     __tablename__ = 'tipomenu'
@@ -83,6 +90,7 @@ app = Flask(__name__)
 @app.route('/crearbase')
 def crear_base():
     Base.metadata.create_all(engine)
+    #set_password('1234')
     usuarios = Usuarios(nombre='Prueba',apellido='base',usuario='Administrador',password='1234',mail='sarasa@mail.com',peso='59',altura='170')
     s = session()
     s.add(usuarios)
@@ -170,7 +178,6 @@ def populateCategorias():
 
 @app.route('/login', methods=['POST'])
 def login():
-    print(request.form)
     if not 'username' in request.form:
         return Response("Nombre de usuario no especificado", status=400)
 
@@ -184,17 +191,16 @@ def login():
    
     try:
         d = s.query(Usuarios).filter(Usuarios.usuario==username).first()
-        if d.password != password or d.usuario != username:
+        if not d.check_password(password) or d.usuario != username:
             return Response("Usuario/Contraseña incorrecto", status=400)
     except(Exception):
         return Response("Cliente no registrado", status=404)   
     
     rand = randint(100000,999999)
-    token = 'bkcsp'+ str(rand)
+    token = 'bearer'+str(rand)
     res_body = {"id":d.id,"token":token}
     res = make_response(res_body, 200)
     return res
- #Response(jsonify(res), status=200, mimetype='application/json')
 
 @app.route('/register', methods=['POST'])
 def create_usuario():
@@ -204,7 +210,7 @@ def create_usuario():
         return Response("Apellido no especificado", status=400)
     if not 'usuario' in request.form:
         return Response("Usuario no especificado", status=400)
-    if not 'contrasena' in request.form:
+    if not 'password' in request.form:
         return Response("Contraseña no especificada", status=400)
     if not 'mail' in request.form:
         return Response("Mail no especificado", status=400)
@@ -216,7 +222,7 @@ def create_usuario():
     nombre = request.form['nombre']
     apellido = request.form['apellido']
     user = request.form['usuario']
-    contrasena = request.form['contrasena']
+    password = request.form['password']
     mail = request.form['mail']
     peso = request.form['peso']
     altura = request.form['altura']
@@ -225,16 +231,17 @@ def create_usuario():
 
     s = session()
   
-    try:
-        us = s.query(Usuarios).filter(Usuarios.usuario==user).first()
-        if us.usuario == user:
-            return Response(text="El usuario ya existe", status=400)
-    except(Exception):
+    us = s.query(Usuarios).get(user)
+    if us is not None:
+        return Response(text="El usuario ya existe", status=400)
+    else:
         tMenu = s.query(TipoMenu).filter(TipoMenu.tipoMenu == menu).first()
-        usuario = Usuarios(nombre=nombre,apellido=apellido,usuario=user,password=contrasena,mail=mail,peso=peso,altura=altura, menu=tMenu.id)
+        usuario = Usuarios(nombre=nombre,apellido=apellido,usuario=user,mail=mail,peso=peso,altura=altura, menu=tMenu.id)
+        usuario.set_password(password)
         s.add(usuario)
         s.commit()
         return Response(str(usuario.id), status=201, mimetype='application/json')
+            
 
 
 @app.route('/opciones', methods=['GET'])
@@ -244,8 +251,32 @@ def buscar_opciones():
 
     return Response(json.dumps([c.to_json() for c in comidas]), status=200, mimetype='application/json')
 
-#json.dumps([d.to_json() for d in dptos])
-
+@app.route('/getUser')
+def buscar_cliente():
+    id = request.args.get('idUsuario')
+    
+    s = session()
+    
+    try:
+        user = s.query(Usuarios).get(id)
+        if user is not None:
+            res_body = {
+                "nombre": user.nombre,
+                "apellido": user.apellido,
+                "user": user.usuario,
+                "password": user.password,
+                "mail": user.mail,
+                "peso": user.peso,
+                "altura": user.altura,
+                "menu": user.menu
+            }
+            res = make_response(res_body,200)
+            return res
+        else:
+            return Response("Error al validar los datos", status=400)   
+    except(Exception):
+        return Response("Internal server error", status=500)
+    
 
 if __name__ == '__main__':
     app.run(port=9001)

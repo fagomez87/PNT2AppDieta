@@ -32,7 +32,7 @@
       <q-input
         filled
         type="password"
-        v-model="contrasena"
+        v-model="password"
         label="Contraseña"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Por favor ingrese su contraseña']"
@@ -86,7 +86,7 @@ export default {
       nombre: '',
       apellido: '',
       usuario: '',
-      contrasena: '',
+      password: '',
       mail: '',
       peso: '',
       altura: '',
@@ -108,7 +108,7 @@ export default {
       formData.set('nombre', this.nombre)
       formData.set('apellido', this.apellido)
       formData.set('usuario', this.usuario)
-      formData.set('contrasena', this.contrasena)
+      formData.set('password', this.password)
       formData.set('mail', this.mail)
       formData.set('peso', this.peso)
       formData.set('altura', this.altura)
@@ -116,10 +116,6 @@ export default {
 
       this.$axios.post('http://127.0.0.1:9001/register', formData)
         .then((response) => {
-            this.$store.commit('register', {
-            username: this.username,
-            token: response.data.token
-          })
           this.$router.push('/')
         })
         .catch((error) => {

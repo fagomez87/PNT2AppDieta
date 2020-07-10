@@ -73,7 +73,7 @@ export default {
           title: 'Menu',
           caption: '',
           icon: 'restaurant',
-          link: '/#'
+          link: '/#/menu'
         },
         {
           title: 'Reportes',

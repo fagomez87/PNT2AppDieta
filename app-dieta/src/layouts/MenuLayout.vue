@@ -49,7 +49,8 @@
 import EssentialLink from 'components/EssentialLink.vue'
 
 export default {
-  name: 'OpcionesLayout',
+  name: 'MenuLayout',
+
   components: {
     EssentialLink
   },
@@ -58,7 +59,6 @@ export default {
       return this.$store.state.username
     }
   },
-
   data () {
     return {
       leftDrawerOpen: false,
@@ -66,7 +66,7 @@ export default {
         {
           title: 'Mis Datos',
           icon: 'account_circle',
-          link: ''
+          link: '/#/Datos'
         },
         {
           title: 'Menu',

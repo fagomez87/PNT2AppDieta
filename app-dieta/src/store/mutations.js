@@ -1,5 +1,6 @@
 export default {
     login: function (state, data) {
+      state.id = data.id
       state.username = data.username
       state.token = data.token
     },
@@ -8,7 +9,7 @@ export default {
       state.token = null
     },
     opciones: function (state, data) {
-      console.log("En la mutation " + sudata)
+      console.log("En la mutation " + data)
      
     }
   }

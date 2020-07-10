@@ -52,6 +52,11 @@ import EssentialLink from 'components/EssentialLink.vue'
      components: {
       EssentialLink
     },
+    computed: {
+      username: function () {
+        return this.$store.state.username
+      }
+    },
     data () {
     return {
       leftDrawerOpen: false,
@@ -65,7 +70,7 @@ import EssentialLink from 'components/EssentialLink.vue'
           title: 'Menu',
           caption: '',
           icon: 'restaurant',
-          link: '/#'
+          link: '/#/menu'
         },
         {
           title: 'Reportes',

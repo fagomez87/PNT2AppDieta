@@ -39,7 +39,6 @@ export default {
             this.$router.push('realizadas')
         },
         opciones: function () {
-            
             this.$router.push('opciones')
         }
     }
