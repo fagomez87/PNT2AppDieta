@@ -10,7 +10,6 @@ export default {
     },
     opciones: function (state, data) {
       console.log("En la mutation " + data)
-     
     }
   }
   

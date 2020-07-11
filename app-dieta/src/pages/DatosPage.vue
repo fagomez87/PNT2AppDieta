@@ -1,12 +1,11 @@
 <template> 
   <q-page class="flex flex-center">
     <div color="primary">
-        <h3>Mi información</h3>
+        <h4>Mi información</h4>
     </div>
     <div>
       <q-form
         v-on:submit="update"
-        v-on:reset="volver"
       >
       <q-input
         filled
@@ -71,7 +70,7 @@
       <br/>
       <div>
           <q-btn label="Actualizar" type="submit" color="secondary" />
-          <q-btn label="Cancelar" type="reset" color="secondary" flat class="q-ml-sm" />
+          <q-btn label="Cancelar" @click="volver" color="secondary" flat class="q-ml-sm" />
       </div>
     </q-form>
     </div>
@@ -126,10 +125,6 @@ export default {
 
       this.$axios.post('http://127.0.0.1:9001/update', formData)
         .then((response) => {
-        //     this.$store.commit('register', {
-        //     username: this.username,
-        //     token: response.data.token
-        //   })
           this.$router.push('/dietasapp')
         })
         .catch((error) => {

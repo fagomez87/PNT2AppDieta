@@ -55,8 +55,14 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/DatosPage.vue') }
     ]
+  }, 
+  {
+    path: '/reportes',
+    component: () => import('layouts/ReportesLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ReportesPage.vue') }
+    ]
   },
-
   // Always leave this as last one,
   // but you can also remove it
   {

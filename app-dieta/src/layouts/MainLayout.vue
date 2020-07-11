@@ -79,7 +79,7 @@ export default {
           title: 'Reportes',
           caption: '',
           icon: 'bar_chart',
-          link: ''
+          link: '/#/reportes'
         },
         {
           title: 'Quienes somos',
