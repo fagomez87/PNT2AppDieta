@@ -49,7 +49,7 @@
         label="peso"
         type="number"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Por favor ingrese su peso']"
+        :rules="[ val => val ]"
       />
       <q-input
         filled
@@ -57,16 +57,26 @@
         label="altura"
         type="number"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Por favor ingrese su altura']"
+        :rules="[ val => val ]"
       />
+
+      <!-- <q-option-group
+        v-model="group"
+        :options="options"
+        color="primary"
+      /> -->
+
       <q-select
         filled
         clearable
-        v-model="options[menu-1]"
+        v-model="model"
         label="menu"
         :options="options"
+        emit-value
+        map-options
         :rules="['Seleccione una por favor']" 
       />
+      
       <br/>
       <div>
           <q-btn label="Actualizar" type="submit" color="secondary" />
@@ -90,8 +100,21 @@ export default {
       peso: '',
       altura: '',
       menu: '',
-      model: null,
-      options: ["Carnes y vegetales", "Vegetariano", "Vegano"]
+      model: '',
+      options: [
+        {
+          value: 1,
+          label: "Carnes y vegetales"
+        },
+        {
+          value: 2,
+          label: "Vegetariano"
+        },
+        {
+          value: 3,
+          label: "Vegano"
+        }
+      ]
     }
   },
   beforeMount() {
@@ -105,7 +128,7 @@ export default {
             this.mail = response.data.mail
             this.peso = response.data.peso
             this.altura = response.data.altura
-            this.menu = response.data.menu
+            this.menu = this.options[response.data.menu]
         })
         .catch((error) => {
             this.$router.push('/dietasapp')
@@ -113,7 +136,9 @@ export default {
   },
   methods: {
     update: function () {
+      let id = this.$store.getters["logData"]
       const formData = new FormData()
+      formData.set('id', id)
       formData.set('nombre', this.nombre)
       formData.set('apellido', this.apellido)
       formData.set('usuario', this.usuario)
@@ -121,11 +146,17 @@ export default {
       formData.set('mail', this.mail)
       formData.set('peso', this.peso)
       formData.set('altura', this.altura)
-      formData.set('menu', this.menu)
+      formData.set('menu', this.model)
 
-      this.$axios.post('http://127.0.0.1:9001/update', formData)
+      this.$axios.put('http://127.0.0.1:9001/updateAll', formData)
         .then((response) => {
           this.$router.push('/dietasapp')
+          this.$q.notify({
+              color: 'green-4',
+              textColor: 'white',
+              icon: 'cloud_done',
+              message: 'Datos actualizados'
+          })
         })
         .catch((error) => {
           this.$q.dialog({

@@ -97,13 +97,7 @@ export default {
   },
   methods: {
     register: function () {
-      // Voy al servidor, consulto, y si no existe lo crea y vuelve al login. 
-          //si existe no lo crea y da aviso de que el usuario ya existe
-    //   this.$store.commit('dietasapp/login', {
-    //     username: this.username,
-    //     token: 'abcdefghijk'
-    //   })
-
+      
       const formData = new FormData()
       formData.set('nombre', this.nombre)
       formData.set('apellido', this.apellido)

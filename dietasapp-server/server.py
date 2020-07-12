@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -277,6 +277,58 @@ def buscar_cliente():
     except(Exception):
         return Response("Internal server error", status=500)
     
+@app.route('/actualizarMenu', methods=['PUT'])
+def actualizar_menu():
+    idUsuario = request.form['idUsuario']
+    menu = request.form['menu']
+    
+    s = session()
+    
+    try:
+        user = s.query(Usuarios).get(idUsuario)
+        if user is not None:
+            user.menu = menu
+            s.commit()
+            return Response("OK", status=200)   
+        else:
+            return Response("Error al validar los datos", status=400)   
+    except(Exception):
+        return Response("Internal server error", status=500)
+
+@app.route('/updateAll', methods=['PUT'])
+def actualizar_datos():
+    
+    idUsuario = request.form['id']
+
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    usuario = request.form['usuario']
+    password = request.form['password']
+    mail = request.form['mail']
+    peso = request.form['peso']
+    altura = request.form['altura']
+    menu = request.form['menu']
+    
+    s= session()
+    
+    try:
+        user = s.query(Usuarios).get(idUsuario)
+        if user is not None:
+            user.nombre = nombre
+            user.apellido = apellido
+            user.usuario = usuario
+            user.password = password
+            user.mail = mail
+            user.peso = peso
+            user.altura = altura
+            user.menu = menu
+            s.commit()
+            return Response("OK", status=200)
+        else:
+            return Response("Error al validar los datos", status=400)   
+    except(Exception):
+        return Response("Internal server error", status=500)
+
 
 if __name__ == '__main__':
     app.run(port=9001)
