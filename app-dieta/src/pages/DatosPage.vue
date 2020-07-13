@@ -59,13 +59,6 @@
         lazy-rules
         :rules="[ val => val ]"
       />
-
-      <!-- <q-option-group
-        v-model="group"
-        :options="options"
-        color="primary"
-      /> -->
-
       <q-select
         filled
         clearable
@@ -76,7 +69,6 @@
         map-options
         :rules="['Seleccione una por favor']" 
       />
-      
       <br/>
       <div>
           <q-btn label="Actualizar" type="submit" color="secondary" />
@@ -128,7 +120,7 @@ export default {
             this.mail = response.data.mail
             this.peso = response.data.peso
             this.altura = response.data.altura
-            this.menu = this.options[response.data.menu]
+            this.model = this.options[response.data.menu-1]
         })
         .catch((error) => {
             this.$router.push('/dietasapp')

@@ -80,7 +80,7 @@ class ComidasUsuarios(Base, ToJson):
     )    
 
 
-engine = create_engine('sqlite:///base_servido.sqlite')
+engine = create_engine('sqlite:///base_servidor.sqlite')
 
 session = sessionmaker()
 session.configure(bind=engine)
@@ -90,9 +90,9 @@ app = Flask(__name__)
 @app.route('/crearbase')
 def crear_base():
     Base.metadata.create_all(engine)
-    #set_password('1234')
-    usuarios = Usuarios(nombre='Prueba',apellido='base',usuario='Administrador',password='1234',mail='sarasa@mail.com',peso='59',altura='170')
     s = session()
+    usuarios = Usuarios(nombre='Prueba',apellido='base',usuario='Administrador',mail='sarasa@mail.com',peso='59',altura='170')
+    usuarios.set_password('1234')
     s.add(usuarios)
     s.commit()
 
