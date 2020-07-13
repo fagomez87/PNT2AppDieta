@@ -1,3 +1,4 @@
 /node_modules
 package-lock.json
 base_servido.sqlite
+/env
