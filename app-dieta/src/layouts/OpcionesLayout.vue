@@ -92,6 +92,12 @@ export default {
           icon: 'chat',
           link: 'https://chat.dietas.dev'
         },
+        {
+          title: 'Logout',
+          caption: 'Salir',
+          icon: 'cancel',
+          link: '/'
+        }
       ]
     }
   }

@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name:'chatPage',
+    name:'ChatPage',
     methods: {
         volver: function(){
             this.$router.push('/dietasapp')

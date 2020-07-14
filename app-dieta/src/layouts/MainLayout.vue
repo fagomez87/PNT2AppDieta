@@ -93,6 +93,12 @@ export default {
           icon: 'chat',
           link: '/#/chat'
         },
+        {
+          title: 'Logout',
+          caption: 'Salir',
+          icon: 'cancel',
+          link: '/'
+        }
       ]
     }
   }

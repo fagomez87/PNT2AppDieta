@@ -4,7 +4,6 @@
       grid
       title="Opciones disponibles"
       :data="data"
-      :columns="columns"
       row-key="name"
       :filter="filter"
       hide-header
@@ -22,17 +21,15 @@
           <q-card>
 
             <q-card-section class="text-center">
-              <strong>{{ props.row.opcion }}</strong>
-              <br>
-              {{ props.row.dieta }}
-              <q-card-actions align="right">
-                <q-btn flat round :color="btnColor" @click="selected" icon="favorite"></q-btn>
-              </q-card-actions>
+              <strong>{{ props.row.titulo }}</strong>
             </q-card-section>
             <q-separator />
             <q-card-section class="flex flex-center" style="10px">
-              <div>{{ props.row.tipo }}</div>
+              <div>{{ props.row.menu }}</div>
             </q-card-section>
+            <q-card-actions>
+              <q-btn >Seleccionar</q-btn>
+          </q-card-actions>
           </q-card>
         </div>
       </template>
@@ -44,7 +41,7 @@
 </template>
 <script>
 export default {
-  name: 'OpcionePage',
+  name: 'OpcionesPage',
     data () {
       return {
         filter: '',
@@ -52,37 +49,28 @@ export default {
         page: 1,
         rowsPerPage: 3
       },
-      columns: [
-        { name: 'dieta', label: 'Tipo de dieta', field: 'dieta' },
-        { name: 'tipo', label: 'Opcion', field: 'tipo' }
-      ],
+      options: '',
       data,
-      btnColor:'grey'
     }
   },
-
   methods: {
     volver: function (){
       this.$router.push('/dietasapp')
     },
-    selected: function () {
-      this.btnColor = 'red'
-    }
   }
 }
 
-const tipos = [
-  'Desayuno: Té + 3 tostadas con mermelada \nAlmuerzo: Pechuga de pollo con ensalada Cena: 2 Milanesas de soja con ensalada',
-  'Desayuno: Té + 3 tostadas con mermelada \nAlmuerzo: Lata de atún con ensalada Cena: 1 Milanesa de peceto con ensalada',
-  'Desayuno: Cafe + 3 tostadas con mermelada \nAlmuerzo: Bife + 1 pan chico con ensalada Cena: 2 Milanesas de soja con ensalada'
+const opciones = [
+  "Desayuno: Té + 3 tostadas con mermelada \nAlmuerzo: Pechuga de pollo con ensalada \nCena: 2 Milanesas de soja con ensalada",
+  "Desayuno: Té + 3 tostadas con mermelada \nAlmuerzo: Lata de atún con ensalada mixta \nCena: 1 Milanesa de peceto con ensalada",
+  "Desayuno: Cafe + 3 tostadas con mermelada \nAlmuerzo: Bife + 1 pan chico con ensalada \nCena: 2 Milanesas de soja con ensalada"
 ]
-const opcion = "Menu "
+const titulo = "Menu "
 const data = []
+
 let j= 0;
-tipos.forEach(name => {
-  for (let i = 0; i < 1; i++) {
-    data.push({ dieta: '', tipo: name, opcion:opcion + (j+1)})
-  }
+opciones.forEach(opcion => {
+    data.push({ menu: opcion, titulo:titulo + (j+1)})
   j++;
 })
 

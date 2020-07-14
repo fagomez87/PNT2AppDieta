@@ -48,7 +48,7 @@
 import EssentialLink from 'components/EssentialLink.vue'
 
   export default {
-    name:'chatLayout',
+    name:'ChatLayout',
      components: {
       EssentialLink
     },
@@ -90,6 +90,12 @@ import EssentialLink from 'components/EssentialLink.vue'
           icon: 'chat',
           link: '/#/chat'
         },
+        {
+          title: 'Logout',
+          caption: 'Salir',
+          icon: 'cancel',
+          link: '/'
+        }
       ]
     }
   }

@@ -49,7 +49,7 @@
         label="peso"
         type="number"
         lazy-rules
-        :rules="[ val => val ]"
+        :rules="[ val => val && val.length > 0 || 'Por favor ingrese su correo']"
       />
       <q-input
         filled
@@ -57,7 +57,7 @@
         label="altura"
         type="number"
         lazy-rules
-        :rules="[ val => val ]"
+        :rules="[ val => val && val.length > 0 || 'Por favor ingrese su correo']"
       />
       <q-select
         filled

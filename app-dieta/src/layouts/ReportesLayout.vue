@@ -90,6 +90,12 @@ import EssentialLink from 'components/EssentialLink.vue'
           icon: 'chat',
           link: '/#/chat'
         },
+        {
+          title: 'Logout',
+          caption: 'Salir',
+          icon: 'cancel',
+          link: '/'
+        }
       ]
     }
   }
