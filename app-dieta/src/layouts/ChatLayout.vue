@@ -80,9 +80,9 @@ import EssentialLink from 'components/EssentialLink.vue'
         },
         {
           title: 'Quienes somos',
-          caption: 'Nuestras redes sociales',
+          caption: '',
           icon: 'public',
-          link: 'https://facebook.DietasApp.com'
+          link: '/#/grupo'
         },
         {
           title: 'Contacto',

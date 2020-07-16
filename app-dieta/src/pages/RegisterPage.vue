@@ -4,10 +4,7 @@
         <h3>Bienvenido</h3>
     </div>
     <div>
-      <q-form
-        v-on:submit="register"
-        v-on:reset="reset"
-      >
+      <q-form v-on:submit="register" >
       <q-input
         filled
         v-model="nombre"
@@ -71,7 +68,7 @@
       <br/>
       <div>
           <q-btn label="Registrar" type="submit" color="secondary" />
-          <q-btn label="Cancelar" type="reset" color="secondary" flat class="q-ml-sm" />
+          <q-btn label="Cancelar" @click="reset" color="secondary" flat class="q-ml-sm" />
       </div>
     </q-form>
     </div>
