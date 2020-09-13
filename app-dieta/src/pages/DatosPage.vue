@@ -82,6 +82,11 @@
 <script>
 export default {
   name: 'DatosPage',
+  beforeCreate: function () {
+      if (!this.$store.getters['isLogged']) {
+          this.$router.push('/')
+      }
+  },
   data () {
     return {
       nombre: '',

@@ -13,7 +13,11 @@
 <script>
 export default {
     name:'ReportesPage',
-
+    beforeCreate: function () {
+        if (!this.$store.getters['isLogged']) {
+            this.$router.push('/')
+        }
+    },
     methods: {
         volver: function(){
             this.$router.push('/dietasapp')

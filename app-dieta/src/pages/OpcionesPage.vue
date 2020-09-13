@@ -42,6 +42,11 @@
 <script>
 export default {
   name: 'OpcionesPage',
+    beforeCreate: function () {
+        if (!this.$store.getters['isLogged']) {
+            this.$router.push('/')
+        }
+    },
     data () {
       return {
         filter: '',

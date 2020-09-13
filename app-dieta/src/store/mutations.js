@@ -7,9 +7,6 @@ export default {
     logout: function (state) {
       state.username = null
       state.token = null
-    },
-    opciones: function (state, data) {
-      console.log("En la mutation " + data)
     }
   }
   
